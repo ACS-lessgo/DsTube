@@ -1,58 +1,70 @@
 <template>
-  <div class="navBar">
-    <button class="MainBtn">DsTube</button>
-    <input type="text" placeholder="Search" />
-    <button class="profileBtn">Profile</button>
+  <NavBar></NavBar>
+  <div>
+    <VideoCard
+      v-for="(video, index) in videoList"
+      :key="index"
+      :thumbnailUrl="video.thumbnailUrl"
+      :videoTitle="video.videoTitle"
+      :viewCount="video.viewCount"
+      :channelName="video.channelName"
+      :description="video.description"
+      @remove="handleRemove(index)"
+    ></VideoCard>
   </div>
-  <div class="content">
-    <h1>{{ message }}</h1>
-    <input type="text" v-model="message" /><br />
-    <h1>To do List</h1>
-    <input type="text" placeholder="enter task" v-model="taskName" />
-    <button @click="addTask(taskName)">Add Task</button>
-    <ul>
-      <li v-for="(task, index) in tasks" :key="index">
-        {{ task }} <button @click="delTask(index)">Delete</button>
-      </li>
-    </ul>
-  </div>
-  <footer>
-    <div class="footer">
-      <p>(©) 2023</p>
-    </div>
-  </footer>
+  <router-view></router-view>
+  <Footer></Footer>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
-export default {
-  setup() {
-    const message = ref("Hello content");
-    const taskName = ref("Task Name");
-    const tasks = ref([]);
-    const addTask = (taskName) => {
-      tasks.value.push(`${taskName}`);
-    };
-    const delTask = (index) => {
-      tasks.value.splice(index, 1);
-    };
+import NavBar from "./components/NavBar.vue";
+import Footer from "./components/Footer.vue";
+import VideoCard from "./components/VideoCard.vue";
 
-    return {
-      message,
-      tasks,
-      delTask,
-      addTask,
-      taskName,
-    };
+const videoList = ref([
+  {
+    thumbnailUrl:
+      "https://c4.wallpaperflare.com/wallpaper/445/577/292/tom-and-jerry-fur-flying-adv-v2-hd-wallpapers-for-mobile-phones-tablet-and-laptops-2560%C3%971600-wallpaper-preview.jpg",
+    videoTitle:
+      "Tom & Jerry | Tom & Jerry in Full Screen | Classic Cartoon Compilation | WB Kids by WB Kids",
+    viewCount: "200,785,000 views",
+    channelName: "WB Kids",
+    description:
+      "Did you know that there are only 25 classic Tom & Jerry episodes that were displayed in a widescreen CinemaScope from the 1950s? Enjoy a compilation filled with some of the best moments from these full screen episodes!",
   },
+  {
+    thumbnailUrl:
+      "https://c4.wallpaperflare.com/wallpaper/539/635/691/tom-and-jerry-shiver-me-whiskers-desktop-wallpaper-hd-2560%C3%971600-wallpaper-preview.jpg",
+    videoTitle:
+      "Tom and Jerry 2018 | 2 Fast 2 Furious + Tom and Jerry in Hospital",
+    viewCount: "9,174,395 views",
+    channelName: "WB Kids",
+    description:
+      "Did you know that there are only 25 classic Tom & Jerry episodes that were displayed in a widescreen CinemaScope from the 1950s? Enjoy a compilation filled with some of the best moments from these full screen episodes! ",
+  },
+  {
+    thumbnailUrl:
+      "https://c4.wallpaperflare.com/wallpaper/317/219/814/bom-cartoon-tom-and-jerry-wallpaper-preview.jpg",
+    videoTitle:
+      "Tom and Jerry - Fit to be tied",
+    viewCount: "64,459,641 views",
+    channelName: "MovieCon Animation",
+    description:
+      "Did you know that there are only 25 classic Tom & Jerry episodes that were displayed in a widescreen CinemaScope from the 1950s? Enjoy a compilation filled with some of the best moments from these full screen episodes!",
+  },
+]);
+
+const handleRemove = (index) => {
+  videoList.value.splice(index, 1);
 };
 </script>
 
-<style>
+<style >
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
 
 body {
-  background-color: black;
+  background-color: #181818;
   color: white;
   margin: 0px;
   height: 100vh;
@@ -74,51 +86,5 @@ body {
 
 .addButton {
   margin-bottom: 5%;
-}
-.footer {
-  background-color: #202020;
-  color: white;
-  text-align: center;
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  bottom: 0;
-}
-.navBar {
-  background-color: #202020;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.MainBtn {
-  background-color: #ff0000;
-  color: #fff;
-  font-weight: bold;
-  font-size: 20px;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5%;
-}
-
-.navBar input[type="text"] {
-  background-color: #313131;
-  color: #fff;
-  border: #313131;
-  font-size: 16px;
-  padding: 0.5% 10%;
-}
-
-.profileBtn{
-  background-color: #202020;
-  color: #3ea6ff;
-  font-weight: bold;
-  font-size: 16px;
-  padding: 10px 20px;
-  border: 2px solid #007bff;
-  cursor: pointer;
-  border-radius: 5%;
 }
 </style>
