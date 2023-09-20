@@ -2,19 +2,27 @@
   <div class="navBar">
     <button class="MainBtn">DsTube</button>
     <input type="text" placeholder="Search" />
-    <button @click="goToHome" class="HomeBtn">Home</button>
-    <button @click="goToAbout" class="profileBtn">Profile</button>
+    <button v-if="currentPage === 'Profile'" @click="goToHome" class="HomeBtn">
+      Home
+    </button>
+    <button v-if="currentPage === 'Home'" @click="goToAbout" class="profileBtn">
+      Profile
+    </button>
   </div>
 </template>
 
 <script setup>
-const emit = defineEmits(['navigate'])
+import { ref } from "vue";
+const emit = defineEmits(["navigate"]);
+const currentPage = ref("Home");
 const goToHome = () => {
-  emit('navigate', 'LandingView');
+  currentPage.value = "Home";
+  emit("navigate", "LandingView");
 };
 
 const goToAbout = () => {
-  emit('navigate', 'ProfileView');
+  currentPage.value = "Profile";
+  emit("navigate", "ProfileView");
 };
 </script>
 
